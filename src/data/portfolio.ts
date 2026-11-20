@@ -15,16 +15,26 @@ export interface Experience {
   location?: string
   details: string[]
   image?: PortfolioImage
+  logo?: Pick<PortfolioImage, 'file' | 'alt' | 'width' | 'height'>
 }
 
 export interface Project {
   name: string
+  summary?: string
   context: string
   period: string
   technologies: string[]
   details: string[]
   url?: string
   images?: PortfolioImage[]
+  diagrams?: PortfolioImage[]
+  showcase?: {
+    title: string
+    summary: string
+    recognition: string
+    credential?: { label: string; url: string }
+    url: string
+  }
 }
 
 export interface Portfolio {
@@ -47,8 +57,19 @@ export interface Portfolio {
     coursework: string[]
     image?: PortfolioImage
   }[]
-  awards: { title: string; date: string; description: string }[]
+  awards: {
+    title: string
+    date: string
+    description: string
+    credential?: { label: string; url: string }
+    image?: PortfolioImage
+  }[]
   skills: { category: string; items: string[] }[]
+}
+
+const stepsCredential = {
+  label: 'View NUS credential',
+  url: 'https://credentials.nus.edu.sg/7612aa48-3dad-4162-96ca-5380720c4575#acc.ZdPWiEwg',
 }
 
 // Sources: the supplied CV, user-provided project links and images, and credited campus photos.
@@ -70,10 +91,18 @@ export const portfolio: Portfolio = {
   projects: [
     {
       name: 'Source Academy',
+      summary: 'An open-source educational programming platform used by 1,000+ NUS freshmen each year. My frontend work focused on student-informed UI/UX improvements and clearer program visualization in React and TypeScript.',
       context: 'CP3108 · Frontend development',
       period: 'January 2026 – May 2026',
       technologies: ['TypeScript', 'React'],
       url: 'https://github.com/source-academy/frontend',
+      showcase: {
+        title: 'CSE Environment Diagrams',
+        summary: 'A team project making code execution easier to follow in Source Academy. The team addressed visual clutter through stable layouts, liveness highlighting, and clearer arrow routing.',
+        recognition: 'Best Project – Platinum · 28th STePs',
+        credential: stepsCredential,
+        url: 'https://uvents.nus.edu.sg/event/28th-steps/module/CP3108/project/3',
+      },
       images: [{
         file: 'images/source-academy.webp',
         alt: 'Source Academy artwork depicting students and characters in a futuristic computing academy.',
@@ -82,8 +111,23 @@ export const portfolio: Portfolio = {
         credit: { label: 'Source Academy', url: 'https://github.com/source-academy/frontend/blob/master/src/assets/academy_background.jpg' },
         license: { label: 'Apache 2.0', url: 'images/source-academy-LICENSE.txt' },
       }],
+      diagrams: [
+        {
+          file: 'images/source-academy-central-alignment.webp',
+          alt: 'Environment diagram comparison: the default layout above and a centrally aligned layout below.',
+          width: 1489, height: 2105,
+          caption: 'Central alignment · Default and improved layouts',
+          credit: { label: 'View original diagram (PDF)', url: 'diagrams/source-academy-central-alignment.pdf' },
+        },
+        {
+          file: 'images/source-academy-overlap.webp',
+          alt: 'Environment diagrams showing overlapping nodes and connections before the fix, followed by the corrected layout.',
+          width: 1489, height: 2105,
+          caption: 'Overlap fix · Before and after',
+          credit: { label: 'View original diagram (PDF)', url: 'diagrams/source-academy-overlap.pdf' },
+        },
+      ],
       details: [
-        'Improved the UI/UX of an open-source educational programming platform used by 1,000+ NUS freshmen annually, based on student feedback.',
         'Implemented an alternative program visualization in React and TypeScript to improve readability for students.',
         'Collaborated across operational teams on feature development, in-depth documentation, and regression testing.',
       ],
@@ -157,12 +201,22 @@ export const portfolio: Portfolio = {
     {
       role: 'Publicity Executive',
       organization: 'NUS: Product Club',
+      logo: {
+        file: 'images/nus-product-club-logo.png',
+        alt: 'NUS Product Club logo',
+        width: 461, height: 606,
+      },
       period: 'April 2026 – Present',
       details: ['Designed audience-focused promotional graphics using established design principles while conveying brand identity.'],
     },
     {
       role: 'Publicity Director',
       organization: 'NUS: Game Development Group',
+      logo: {
+        file: 'images/nus-game-development-group-logo.png',
+        alt: 'NUS Game Development Group logo',
+        width: 1100, height: 1100,
+      },
       period: 'September 2025 – Present',
       details: ['Collaborated with NUS Library as part of Discover Digital to host the NUS Library Collection Game Jam, raising awareness of Library resources through innovative games.'],
     },
@@ -188,11 +242,24 @@ export const portfolio: Portfolio = {
       title: 'The 28th STePs: Best Project – Platinum',
       date: 'April 2026',
       description: 'Awarded 1st place for CSE Environment Diagrams at the NUS School of Computing project showcase.',
+      credential: stepsCredential,
+      image: {
+        file: 'images/steps-platinum-certificate.png',
+        alt: 'NUS School of Computing Best Project - Platinum certificate awarded to That Li for CSE Environment Diagrams at the 28th STePS in April 2026.',
+        width: 1286, height: 909,
+        caption: '28th STePS · Best Project - Platinum certificate',
+      },
     },
     {
       title: 'NUS ASEAN Undergraduate Scholarship',
       date: 'June 2025',
       description: 'One of five recipients selected from Myanmar based on academic performance and scholarship selection.',
+      image: {
+        file: 'images/nus-asean-scholarship.png',
+        alt: 'NUS Office of Admissions scholarship offer letter dated 19 June 2025, with address details redacted.',
+        width: 1364, height: 1929,
+        caption: 'NUS ASEAN Undergraduate Scholarship · Offer letter',
+      },
     },
   ],
   skills: [

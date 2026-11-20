@@ -23,11 +23,16 @@ npm run preview
 
 Open the address printed by Vite, normally http://127.0.0.1:4173. Stop it with Ctrl+C. Check phone and desktop widths; Tab through navigation, use the skip link, and open/download the CV. Email and phone links open the visitor's configured apps.
 
+For layout changes, also check 200% text sizing at 320, 390, 768, 1024, and 1440px. Navigation must wrap without losing links, and visual order must match keyboard order. Credential thumbnails keep their full-size image links; keyboard navigation uses immediate scrolling.
+
 ## Update content or the CV
 
 - Edit `src/data/portfolio.ts` for text, contact destinations, dates, education, skills, awards, and projects. This typed file is independent of the layout. Empty section arrays hide their section and navigation link. Remove unavailable contacts instead of leaving placeholder links.
 - Put verified project URLs in the optional `url` field; projects without URLs remain readable articles.
 - Store images in `public/images/` and update their file, alt text, caption, dimensions, and source credits in the data file. Images open at full size and load lazily; no gallery dependency is needed.
+- Source Academy's `diagrams` array contains its improvement comparisons. Their previews live in `public/images/`, with the unchanged original PDFs in `public/diagrams/` linked from each caption.
+- Source Academy leads with its award, platform overview, artwork, personal contributions, and repository. Its supplementary `showcase` entry groups CSE Environment Diagrams, comparison diagrams, and the [28th STePs competition entry](https://uvents.nus.edu.sg/event/28th-steps/module/CP3108/project/3) in an expandable project highlight. The team overview and the owner's contributions remain distinct.
+- Award credentials and scholarship evidence are also in the data file. The STePs award links to the supplied NUS credential from both the project header and the awards section. The scholarship entry displays the owner's already-redacted letter with full-size viewing.
 - Replace `public/That-Li-CV.pdf` to update the PDF without changing links. If renaming it, update `cv.file` in the data file and the no-JavaScript fallback in `index.html`.
 - The page title and description use the data file. The initial HTML title, favicon, and theme colour are in `index.html` and `public/favicon.svg`.
 - Review the website and downloadable CV together before publishing: both contain the contact details supplied in the CV.
@@ -56,10 +61,14 @@ System fonts keep the site self-contained, with no external font requests.
 
 ## Image sources
 
-All images are served locally as WebP, resized and compressed without changing their contents. The original aspect ratios are preserved. Credits appear beside the images; retain them when redesigning.
+Images are served locally. Photos and diagrams use WebP; the scholarship letter keeps the owner's original PNG unchanged. The original aspect ratios are preserved. Credits appear beside the images; retain them when redesigning.
 
 - `nus-campus.webp`: [University Hall by Sengkang](https://commons.wikimedia.org/wiki/File:NUS,_University_Hall,_Nov_06.JPG), November 2006. Wikimedia Commons records unrestricted reuse permission.
 - `nus-computing.webp`: [COM1 by Soccorpcomm](https://commons.wikimedia.org/wiki/File:NUS_School_of_Computing.JPG), 2003, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). This resized WebP remains under the same license; this applies to the photograph, not the rest of the site.
 - `source-academy.webp`: [academy_background.jpg](https://github.com/source-academy/frontend/blob/master/src/assets/academy_background.jpg) from the Source Academy frontend repository. This is project artwork, not a screenshot or a claim of authorship. Its Apache 2.0 license is retained in `public/images/source-academy-LICENSE.txt`.
+- `source-academy-central-alignment.webp` and `source-academy-overlap.webp`: lossless page previews of the owner's supplied diagrams. The original PDFs are preserved in `public/diagrams/` for detailed viewing.
 - `tuteedex-ui.webp`: [UI screenshot](https://github.com/AY2627S1-CS2103T-F13-2/tp/blob/master/docs/images/Ui.png) from the TuteeDex repository. `tuteedex-design.webp` is the owner's supplied design-board screenshot.
 - `mr-krabs-event.webp`: the owner's supplied Agnes OpenClaw hackathon group photo. Upstream OpenClaw showcase images are not used to represent Mr. Krabs.
+- `nus-asean-scholarship.png`: the owner's supplied scholarship offer letter, including its existing redactions. It is copied unchanged.
+- `steps-platinum-certificate.png`: the owner's supplied Platinum award certificate preview, copied unchanged. The separate NUS credential link remains available for verification.
+- `nus-product-club-logo.png` and `nus-game-development-group-logo.png`: the owner's supplied club logos, copied unchanged and displayed beside the respective organization names. Their metadata is in the `community` entries of the data file.

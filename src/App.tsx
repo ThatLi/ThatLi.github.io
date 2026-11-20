@@ -25,7 +25,7 @@ function PortfolioFigure({ image }: { image: PortfolioImage }) {
       </a>
       <figcaption>
         <span>{image.caption}</span>
-        {image.credit && <a href={image.credit.url}>{image.credit.label}</a>}
+        {image.credit && <a href={image.credit.url.startsWith('https:') ? image.credit.url : `${import.meta.env.BASE_URL}${image.credit.url}`}>{image.credit.label}</a>}
         {image.license && <a href={image.license.url.startsWith('https:') ? image.license.url : `${import.meta.env.BASE_URL}${image.license.url}`}>{image.license.label}</a>}
       </figcaption>
     </figure>
@@ -49,7 +49,10 @@ function ExperienceList({ items }: { items: Experience[] }) {
     <article className="experience-item" key={`${item.organization}-${item.role}`}>
       <div className="experience-meta">
         <p className="date">{item.period}</p>
-        <p className="organization">{item.organization}</p>
+        <div className="organization-brand">
+          {item.logo && <img className="organization-logo" src={`${import.meta.env.BASE_URL}${item.logo.file}`} alt={item.logo.alt} width={item.logo.width} height={item.logo.height} loading="lazy" decoding="async" />}
+          <p className="organization">{item.organization}</p>
+        </div>
         {item.location && <p className="location">{item.location}</p>}
         {item.image && <PortfolioFigure image={item.image} />}
       </div>
@@ -67,10 +70,10 @@ export function App() {
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header container">
         <a className="wordmark" href="#top" aria-label={`${p.name}, back to top`}>{p.initials}<span>.</span></a>
+        <a className="header-cv" href={cvUrl} aria-label={`${p.cv.label} (PDF)`}>{p.cv.label} <Arrow diagonal /></a>
         <nav aria-label="Main navigation">
           {navigation.map((item) => <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}
         </nav>
-        <a className="header-cv" href={cvUrl} aria-label={`${p.cv.label} (PDF)`}>{p.cv.label} <Arrow diagonal /></a>
       </header>
 
       <main id="main" className="container" tabIndex={-1}>
@@ -106,11 +109,29 @@ export function App() {
               <div className="project-content">
                 <p className="eyebrow">{project.context}</p>
                 <h3>{project.name}</h3>
-                {project.images && project.images.length > 0 && <div className="project-gallery">{project.images.map((image) => <PortfolioFigure key={image.file} image={image} />)}</div>}
+                {project.showcase && <div className="project-recognition">
+                  <p><span aria-hidden="true">✳</span> {project.showcase.recognition}</p>
+                  {project.showcase.credential && <a className="credential-link" href={project.showcase.credential.url}>{project.showcase.credential.label} <Arrow diagonal /></a>}
+                </div>}
+                <div className="project-meta">
+                  <p className="date">{project.period}</p>
+                  <ul className="tags" aria-label={`${project.name} technologies`}>{project.technologies.map((tech) => <li key={tech}>{tech}</li>)}</ul>
+                </div>
+                {project.summary && <p className="project-summary">{project.summary}</p>}
+                {project.showcase && <h4 className="eyebrow project-contributions">My contributions</h4>}
                 <ul className="detail-list">{project.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
-                {project.url && <a className="text-link" href={project.url}>View {project.name} repository <Arrow diagonal /></a>}
+                {project.images && project.images.length > 0 && <div className="project-gallery">{project.images.map((image) => <PortfolioFigure key={image.file} image={image} />)}</div>}
+                {project.url && <a className={project.showcase ? 'button button-primary project-repository' : 'text-link'} href={project.url}>View {project.name} repository <Arrow diagonal /></a>}
+                {project.showcase && <details className="project-showcase">
+                  <summary>Project highlight: {project.showcase.title}</summary>
+                  <p className="project-summary">{project.showcase.summary}</p>
+                  <a className="text-link" href={project.showcase.url}>View 28th STePs showcase <Arrow diagonal /></a>
+                  {project.diagrams && project.diagrams.length > 0 && <div className="project-diagrams">
+                    <h4 className="eyebrow">Visualization improvements</h4>
+                    <div className="project-gallery">{project.diagrams.map((image) => <PortfolioFigure key={image.file} image={image} />)}</div>
+                  </div>}
+                </details>}
               </div>
-              <div className="project-meta"><p className="date">{project.period}</p><ul className="tags" aria-label={`${project.name} technologies`}>{project.technologies.map((tech) => <li key={tech}>{tech}</li>)}</ul></div>
             </article>
           ))}</div>
         </Section>}
@@ -135,7 +156,11 @@ export function App() {
             {p.awards.length > 0 && <div className="awards"><h3 className="eyebrow">Awards & scholarships</h3>{p.awards.map((award) => (
               <article className="award" key={award.title}>
                 <span className="award-symbol" aria-hidden="true">✳</span>
-                <div><p className="date">{award.date}</p><h4>{award.title}</h4><p>{award.description}</p></div>
+                <div>
+                  <p className="date">{award.date}</p><h4>{award.title}</h4><p className="award-description">{award.description}</p>
+                  {award.credential && <a className="text-link" href={award.credential.url}>{award.credential.label} <Arrow diagonal /></a>}
+                  {award.image && <PortfolioFigure image={award.image} />}
+                </div>
               </article>
             ))}</div>}
           </div>
