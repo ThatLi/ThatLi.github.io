@@ -15,6 +15,7 @@ export interface Experience {
   location?: string
   details: string[]
   image?: PortfolioImage
+  images?: PortfolioImage[]
   logo?: Pick<PortfolioImage, 'file' | 'alt' | 'width' | 'height'>
 }
 
@@ -183,6 +184,20 @@ export const portfolio: Portfolio = {
       organization: 'NUS School of Computing',
       period: 'August 2026 – Present',
       location: 'Kent Ridge Crescent, Singapore',
+      images: [
+        {
+          file: 'images/CS1101S-class-photo.jpg',
+          alt: 'CS1101S students working together with laptops and robotics kits during a classroom session.',
+          width: 1280, height: 960,
+          caption: 'CS1101S · Classroom session',
+        },
+        {
+          file: 'images/CS1101S-group-photo.jpg',
+          alt: 'CS1101S tutorial group posing together in the classroom.',
+          width: 1280, height: 960,
+          caption: 'CS1101S · Tutorial group photo',
+        },
+      ],
       image: {
         file: 'images/nus-computing.webp',
         alt: 'The glass entrance of NUS School of Computing COM1, with the school name above the doors.',

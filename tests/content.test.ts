@@ -40,6 +40,7 @@ test('published content has a CV, usable contacts, and complete entries', () => 
 test('portfolio images have local files, descriptive text, dimensions, and valid credits', () => {
   const images: PortfolioImage[] = [
     ...portfolio.projects.flatMap((project) => [...project.images ?? [], ...project.diagrams ?? []]),
+    ...[...portfolio.experience, ...portfolio.community].flatMap((item) => item.images ?? []),
     ...[...portfolio.experience, ...portfolio.community, ...portfolio.education, ...portfolio.awards].flatMap((item) => item.image ? [item.image] : []),
   ]
   assert.ok(images.length > 0)

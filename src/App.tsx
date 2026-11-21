@@ -59,6 +59,7 @@ function ExperienceList({ items }: { items: Experience[] }) {
       <div>
         <h3>{item.role}</h3>
         <ul className="detail-list">{item.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
+        {item.images && item.images.length > 0 && <div className="project-gallery">{item.images.map((image) => <PortfolioFigure key={image.file} image={image} />)}</div>}
       </div>
     </article>
   ))}</div>
